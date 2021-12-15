@@ -58,14 +58,17 @@ public class TransformBrowser extends BaseBrowser {
                 
                 ObjectDefinition inputDef = new ObjectDefinition()
                         .withInputType( ContentType.JSON )
-                        .withOutputType( ContentType.NONE)
+                        .withOutputType( ContentType.JSON)
                         .withJsonSchema(getJsonSchema())
                         .withElementName("");
                 definitions.getDefinitions().add(inputDef);
-
-                definitions.getDefinitions().add(new ObjectDefinition()
-                        .withInputType(ContentType.NONE)
-                        .withOutputType(ContentType.NONE));
+                
+                ObjectDefinition outputDef = new ObjectDefinition()
+                        .withInputType( ContentType.JSON )
+                        .withOutputType( ContentType.JSON)
+                        .withJsonSchema(getJsonSchema())
+                        .withElementName("");
+                definitions.getDefinitions().add(outputDef);
                 break;
             default:
                 throw new UnsupportedOperationException();
