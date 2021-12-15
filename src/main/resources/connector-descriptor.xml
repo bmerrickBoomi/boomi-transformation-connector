@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenericConnectorDescriptor>
+    
+    <field id="url" label="URL" type="string">
+        <helpText>The base URL to execute against</helpText>
+    </field>
+    <field id="username" label="Username" type="string"/>
+    <field id="password" label="Password" type="password"/>
+
+    <operation types="GET"/>
+    <operation types="EXECUTE" customTypeId="INSERT"/>
+</GenericConnectorDescriptor>
