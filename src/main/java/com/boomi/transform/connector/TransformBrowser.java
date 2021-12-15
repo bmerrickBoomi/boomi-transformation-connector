@@ -1,5 +1,10 @@
 // Copyright (c) 2020 Boomi, Inc.
-package com.boomi.ootw.connector;
+package com.boomi.transform.connector;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.Collection;
 
 import com.boomi.connector.api.BrowseContext;
 import com.boomi.connector.api.ConnectorException;
@@ -14,18 +19,13 @@ import com.boomi.util.ClassUtil;
 import com.boomi.util.IOUtil;
 import com.boomi.util.StreamUtil;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.Collection;
+public class TransformBrowser extends BaseBrowser {
 
-public class OOTWBrowser extends BaseBrowser {
+    private static final String TRANSFORM_SCHEMA = "/transform-schema.json";
+    private static final String UTF8             = "UTF-8";
+    private static final String TRANSFORM        = "Transform";
 
-    private static final String CONTACT_SCHEMA = "/contact-schema.json";
-    private static final String UTF8 = "UTF-8";
-    private static final String CONTACT = "Contact";
-
-    protected OOTWBrowser(BrowseContext context) {
+    protected TransformBrowser(BrowseContext context) {
         super(context);
     }
 
@@ -36,8 +36,8 @@ public class OOTWBrowser extends BaseBrowser {
     public ObjectTypes getObjectTypes() {
         ObjectTypes types = new ObjectTypes();
         ObjectType type = new ObjectType();
-        type.setId(CONTACT);
-        type.setLabel(CONTACT);
+        type.setId(TRANSFORM);
+        type.setLabel(TRANSFORM);
         types.getTypes().add(type);
         return types;
     }
@@ -53,16 +53,6 @@ public class OOTWBrowser extends BaseBrowser {
         ObjectDefinitions definitions = new ObjectDefinitions();
         switch (getContext().getOperationType()) {
 
-            case GET:
-                //Output has incoming data, no outgoing data
-                definitions.getDefinitions().add(
-                        new ObjectDefinition()
-                                .withInputType(ContentType.NONE)
-                                .withOutputType(ContentType.JSON)
-                                .withJsonSchema(getJsonSchema())
-                                .withElementName(""));
-                    
-                break;
             // output and input
             case EXECUTE:
                 
@@ -85,7 +75,7 @@ public class OOTWBrowser extends BaseBrowser {
 
     private static String getJsonSchema() {
         String schema;
-        InputStream is = ClassUtil.getResourceAsStream(CONTACT_SCHEMA);
+        InputStream is = ClassUtil.getResourceAsStream(TRANSFORM_SCHEMA);
         try {
             schema = StreamUtil.toString(is, Charset.forName(UTF8));
         } catch (IOException ex) {
